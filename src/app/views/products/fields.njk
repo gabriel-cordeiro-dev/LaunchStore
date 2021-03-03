@@ -43,7 +43,7 @@
             <p>Selecione até 6 Fotos</p>
         </div>
         <div id="photos-preview">
-            {% if files%}
+            {% if files %}
                 {% for image in files%}
                     <div class="photo" id="{{ image.id }}">
                         <img src="{{ image.src }}" alt="{{ image.name }}">

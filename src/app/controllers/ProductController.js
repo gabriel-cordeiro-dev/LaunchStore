@@ -1,4 +1,4 @@
-const { formatPrice } = require('../../lib/utils')
+const { formatPrice, date } = require('../../lib/utils')
 
 const Category = require('../models/Category')
 const Product = require('../models/Product')
@@ -63,7 +63,33 @@ module.exports = {
 
         return res.render('products/edit.njk', { product, categories, files })
     },
+    async show(req, res){
+        
+        let results = await Product.find(req.params.id)
+        const product = results.rows[0]
 
+        if (!product) return res.send('Product Not Found')
+
+        const { day, hour, minutes, month } = date(product.updated_at)
+
+        product.published = {
+            day: `${day}/${month}`,
+            hour: `${hour}h${minutes}`,
+        }
+
+        product.oldPrice = formatPrice(product.old_price)
+        product.price = formatPrice(product.price)
+
+        results = await Product.files(product.id)
+        const files = results.rows.map(file => ({
+            ...file,
+            src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+        }))
+
+
+
+        return res.render("products/show", { product, files })
+    },
     async put(req, res){
         const keys = Object.keys(req.body)
 
@@ -88,7 +114,7 @@ module.exports = {
             const lastIndex = removedFiles.length - 1
             removedFiles.splice(lastIndex, 1)
 
-            const removedFilesPromise = removedFiles.map(file => File.delete(id))
+            const removedFilesPromise = removedFiles.map(id => File.delete(id))
 
             await Promise.all(removedFilesPromise)
         }
@@ -103,7 +129,7 @@ module.exports = {
 
         await Product.update(req.body)
 
-        return res.redirect(`/products/${req.body.id}/edit`)
+        return res.redirect(`/products/${req.body.id}`)
     },
     async delete(req, res){
         await Product.delete(req.body.id)
