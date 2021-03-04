@@ -144,8 +144,8 @@ const ImageGallery = {
 
 const Lightbox = {
     target: document.querySelector('.lightbox-target'),
-    image: document.querySelector('lightbox-target img'),
-    closeButton: document.querySelector('lightbox-target a.lightbox-close'),
+    image: document.querySelector('.lightbox-target img'),
+    closeButton: document.querySelector('.lightbox-target a.lightbox-close'),
     open(){
         Lightbox.target.style.opacity = 1
         Lightbox.target.style.top = 0
