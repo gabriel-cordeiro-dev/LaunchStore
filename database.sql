@@ -3,7 +3,7 @@ CREATE TABLE "products" (
   "category_id" int NOT NULL,
   "user_id" int,
   "name" text NOT NULL,
-  "descripition" text NOT NULL,
+  "description" text NOT NULL,
   "old_price" int,
   "price" int NOT NULL,
   "quantity" int DEFAULT 0,

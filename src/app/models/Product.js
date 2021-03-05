@@ -35,7 +35,7 @@ module.exports = {
             data.status || 1,
         ]
 
-        return db.query(query, values,)
+        return db.query(query, values)
     },
     find(id) {
         return db.query('SELECT * FROM products WHERE id = $1',[id])
