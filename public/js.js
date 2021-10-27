@@ -30,8 +30,6 @@ const PhotosUpload = {
 
             PhotosUpload.files.push(file)
 
-
-
             const reader = new FileReader()
 
 
